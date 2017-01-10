@@ -17,12 +17,94 @@
     <!-- Added link to the jQuery Library -->
     <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
 
+	<!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+
 
 </head>
 <body>
 
+	<div class = "container">
+
+		<div class = "jumbotron">
+
+			<h1> All Aboard </h1>
+
+		</div><!--End of jumbotron-->
+
+		<div class="panel panel-primary train-schedule">
+      		<div class="panel-heading">Current Train Schedule</div>
+     		 <!--Table-->
+     		 <table class="table table-hover" id="train-table">
+			    <thead>
+			      <tr>
+			        <th>Train Name</th>
+			        <th>Destination</th>
+			        <th>Frequency(min)</th>
+			        <th>Next Arrival</th>
+			        <th>Minutes Away</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			        <td>Trenton Express</td>
+			        <td>Trenton</td>
+			        <td>25</td>
+			        <td>05:35 PM</td>
+			        <td>10</td>
+			      </tr>
+			      <tr>
+			        <td>Trenton Express</td>
+			        <td>Trenton</td>
+			        <td>25</td>
+			        <td>05:35 PM</td>
+			        <td>10</td>
+			      </tr>
+			      <tr>
+			        <td>Trenton Express</td>
+			        <td>Trenton</td>
+			        <td>25</td>
+			        <td>05:35 PM</td>
+			        <td>10</td>
+			      </tr>
+			    </tbody>
+ 			 </table>
+    	</div><!--End of train-schedule-->
+
+    	<div class="panel panel-primary">
+      		<div class="panel-heading">Add Train</div>
+     		 <div class="panel-body">
+     		 	<form id = "addtrain">
+					<div class="form-group">
+	  					<label for="trainname">Train Name</label>
+	  					<input type="text" class="form-control" id="trainname">
+					</div>
+					<div class="form-group">
+	  					<label for="dest">Destination</label>
+	 					<input type="text" class="form-control" id="dest">
+					</div>
+					<div class="form-group">
+	  					<label for="traintime">First train time (HH:mm - military time)</label>
+	  					<input type="text" class="form-control" id="traintime">
+					</div>
+					<div class="form-group">
+	  					<label for="freq">Frequency(min)</label>
+	 					<input type="text" class="form-control" id="freq">
+					</div>
+					<button type="submit" class="btn btn-primary" id = "submit-traininfo">Submit</button>
+				</form>
+
+     		 </div>
+    	</div><!--End of addtrain-->
+
+	</div> <!--End of container div-->
+
+    <!--Link to moment.js-->
+	<script src="assets/javascript/moment.js"></script>
+
 	<!-- Link to JavaScript file -->
     <script src="assets/javascript/app.js"></script>
+
 
 </body>
 </html>
