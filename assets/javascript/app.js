@@ -22,35 +22,23 @@ var militaryFormat = 'HH:mm';
 //--------------------------------------------------------------
 //--------------------FUNCTIONS---------------------------------
 
-function trainHtmlFromDtb(trainRowSnapshot){
-
-	var html = '';
-
-	html += "<tr><td>" + trainRowSnapshot.trainName + "</td>";
-	html += "<td>" + trainRowSnapshot.destination + "</td>";
-	html += "<td>" + trainRowSnapshot.firstTrainTime + "</td>";
-	html += "<td>" + trainRowSnapshot.frequency + "</td></tr>";
-
-	return html;
-
-}
-
 //--------------------------------------------------------------
 
 // Load all the old as well as new rows on the train Schedule table and display on HTML
 trainSchedRef.on("child_added", function(snapshot) {
 
-	//Log current time
-	var currentTime = moment();
-	console.log("Current time in military time: " + currentTime.format('HH:mm'));
-
 	//Testing and debugging. testTime in military time
 	var testTime = moment('10:00', militaryFormat);
 	console.log("Test time in military format: " + testTime.format('HH:mm'));
 
+	//Log current time
+	var currentTime = moment();
+	console.log("Current time in military time: " + currentTime.format('HH:mm'));
+
 	//Variable declarations
 	var firstTrainDep = moment(snapshot.val().firstTrainTime, militaryFormat);
-	console.log("First train departure for "+ snapshot.val().trainName +" in military format: " + firstTrainDep.format('HH:mm'))
+	console.log("First train departure for "+ snapshot.val().trainName +" in military format: " + firstTrainDep.format('HH:mm'));
+
 	var nextTrainTime;
 	var freqRemainder;
 	var minToArrival;
