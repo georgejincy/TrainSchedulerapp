@@ -19,10 +19,30 @@ moment().format();
 
 var militaryFormat = 'HH:mm';
 
-//--------------------------------------------------------------
-//--------------------FUNCTIONS---------------------------------
+var date = null;
+
+
 
 //--------------------------------------------------------------
+//--------------------FUNCTIONS---------------------------------
+// Update current date and time
+var updateCurrDteTime = function () {
+	date = moment();
+    $("#current-datetime").html(date.format('dddd, MMMM Do YYYY, h:mm:ss A'));
+};
+
+
+//---------------------TIMER------------------------------------
+
+
+
+
+//--------------------------------------------------------------
+//dISPLAY CURRENT DATE AND TIME
+$(document).ready(function(){
+    updateCurrDteTime();
+    setInterval(updateCurrDteTime, 1000);
+});
 
 // Load all the old as well as new rows on the train Schedule table and display on HTML
 trainSchedRef.on("child_added", function(snapshot) {
@@ -98,6 +118,16 @@ trainSchedRef.on("child_added", function(snapshot) {
 	 $("#train-table > tbody:last-child").append(html);
  });
 
+//---------------------------------------------------------------
+
+// Update the train times once every minute
+function updateTrainData(){
+	ref.once('value', function(snapshot) {
+  		snapshot.forEach(function(childSnapshot) {
+
+  		});
+	});
+}
 
 // --------------------------------------------------------------
 

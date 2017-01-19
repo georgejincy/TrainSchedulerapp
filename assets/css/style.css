@@ -1,0 +1,12 @@
+.jumbotron{
+	background: url("../images/train.jpg") no-repeat center center;
+	background-size: cover;
+	color: #ff751a;
+	text-align: center;
+	font-family: 'Luckiest Guy', cursive;
+}
+
+#current-datetime{
+	text-align: center;
+	background-color:  #b3ffe0;
+}
