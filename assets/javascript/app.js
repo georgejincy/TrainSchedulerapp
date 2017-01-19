@@ -19,17 +19,26 @@ moment().format();
 
 var militaryFormat = 'HH:mm';
 
+var date = null;
+
+
+
 //--------------------------------------------------------------
 //--------------------FUNCTIONS---------------------------------
+// Update current date and time
+var updateCurrDteTime = function () {
+	date = moment();
+    $("#current-datetime").html(date.format('dddd, MMMM Do YYYY, h:mm:ss A'));
+};
 
-//--------------------------------------------------------------
+//This function receives the snapshot of firebase as an argument and uses it to calculate the next train time and minutes to arrival. It also updates the train table with the data
+function updTrainData(snapshot){
 
-// Load all the old as well as new rows on the train Schedule table and display on HTML
-trainSchedRef.on("child_added", function(snapshot) {
-
-	//Testing and debugging. testTime in military time
-	var testTime = moment('10:00', militaryFormat);
-	console.log("Test time in military format: " + testTime.format('HH:mm'));
+	var trainVar = {
+  			trainName: snapshot.val().trainName,
+  			nextTrainTime: null,
+  			minToArrival: 0
+  			};
 
 	//Log current time
 	var currentTime = moment();
@@ -80,6 +89,75 @@ trainSchedRef.on("child_added", function(snapshot) {
 
 	}
 
+	trainVar.nextTrainTime = nextTrainTime;
+	trainVar.minToArrival = minToArrival;
+
+	return trainVar;
+
+
+}
+
+// Update the train times once every minute
+function updateTrainTime(){
+	console.log("---------------------------------------------------");
+	console.log("Updating train time once for every minute");
+	trainSchedRef.once('value', function(snapshot) {
+  		snapshot.forEach(function(childSnapshot) {
+
+  			var trainVar = {
+  			trainName: snapshot.val().trainName,
+  			nextTrainTime: null,
+  			frequency: 0
+  			};
+
+  			trainVar = updTrainData(childSnapshot);
+
+  			var idTrainTime = childSnapshot.val().trainName.substr(0,3) + "Next";
+			console.log(idTrainTime);
+			var idMin =  childSnapshot.val().trainName.substr(0,3)  + "Min";
+
+
+  			$( "#" + idTrainTime).html(trainVar.nextTrainTime.format('hh:mm A'));
+  			$( "#" + idMin).html(trainVar.minToArrival);
+
+  		});
+	});
+}
+
+
+//---------------------TIMER------------------------------------
+
+
+
+
+//--------------------------------------------------------------
+//dISPLAY CURRENT DATE AND TIME
+$(document).ready(function(){
+    updateCurrDteTime();
+    setInterval(updateCurrDteTime, 1000);
+
+    // Update the train times once every minute
+    setInterval(updateTrainTime,1000 * 10);
+});
+
+// Load all the old as well as new rows on the train Schedule table and display on HTML
+trainSchedRef.on("child_added", function(snapshot) {
+
+	//Testing and debugging. testTime in military time
+	var testTime = moment('10:00', militaryFormat);
+	console.log("Test time in military format: " + testTime.format('HH:mm'));
+
+	var trainVar = {
+  			trainName: snapshot.val().trainName,
+  			nextTrainTime: null,
+  			frequency: 0
+  			};
+
+	//call function updTrainData to update the train table
+	trainVar = updTrainData(snapshot);
+	console.log(trainVar);
+
+
 	//Log snapshot
 	console.log("| Added: " + snapshot.val());
 
@@ -87,16 +165,24 @@ trainSchedRef.on("child_added", function(snapshot) {
 
 	var html = '';
 
+	var idTrainTime = snapshot.val().trainName.substr(0,3) + "Next";
+	console.log(idTrainTime);
+	var idMin =  snapshot.val().trainName.substr(0,3)  + "Min";
+
 	html += "<tr><td>" + snapshot.val().trainName + "</td>";
 	html += "<td>" + snapshot.val().destination + "</td>";
 	html += "<td>" + snapshot.val().frequency + "</td>";
-	html += "<td>" + nextTrainTime.format('hh:mm A') + "</td>";
-	html += "<td>" + minToArrival + "</td></tr>";
+	html += "<td id = " + idTrainTime + ">" + trainVar.nextTrainTime.format('hh:mm A') + "</td>";
+	html += "<td id = " + idMin + ">" + trainVar.minToArrival + "</td>";
+	html += "<td><button type='button' class='btn btn-danger'>Delete</button></td></tr>";
 
 
 	// Add a new row to the Current train schedule table
 	 $("#train-table > tbody:last-child").append(html);
  });
+
+//---------------------------------------------------------------
+
 
 
 // --------------------------------------------------------------
@@ -112,13 +198,15 @@ $("#submit-traininfo").on("click", function(event) {
   var destination = $("#dest").val().trim();
   var firstTrainTime = $("#traintime").val().trim();
   var frequency = $("#freq").val().trim();
+  var trainCode = trainName.substr(0,3);
 
   //Store inputs in a train object
   var train = {
   			trainName: trainName,
   			destination: destination,
   			firstTrainTime: firstTrainTime,
-  			frequency: frequency
+  			frequency: frequency,
+  			trainCode: trainCode
   			};
 
 
@@ -133,4 +221,35 @@ $("#submit-traininfo").on("click", function(event) {
   
     //Don't refresh the page
   	return false;
+});
+
+//If users clicks the delete button, remove table row from html and database
+$('#train-table').on('click', '.btn-danger', function(){
+
+	// get the current row
+   	var currentRow=$(this).closest("tr"); 
+         
+    //Get the table cell value
+    var col1 = currentRow.find("td:eq(0)").text();
+
+    var trainCode = col1.substr(0,3);
+
+	//Delete from firebase
+
+    /*trainSchedRef.orderByChild("trainCode").equalTo(trainCode).on("value", function(snapshot) {
+
+    	console.log("Row to be deleted is:" + snapshot.val().trainName);
+
+    });*/
+    /*remove()
+  		.then(function() {
+    		console.log("Remove succeeded.")
+  		})
+  		.catch(function(error) {
+    		console.log("Remove failed: " + error.message)
+  		});*/
+
+
+    //currentRow.remove();
+
 });

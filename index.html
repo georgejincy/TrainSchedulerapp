@@ -3,13 +3,16 @@
 <head>
 
 	<meta charset="UTF-8">
-	<title>Train Scheduler</title>
+	<title>Train Scheduler</title>\
+
+	<!-- Link to reset CSS file -->
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	
 	<!-- Latest compiled and minified Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-	<!-- Link to reset CSS file -->
-	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<!--Link to google fonts-->
+	 <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy|Orbitron" rel="stylesheet">
 
 	<!-- Link to custom CSS file -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
@@ -32,8 +35,19 @@
 
 		</div><!--End of jumbotron-->
 
+		<div class="panel panel-success panel-default">
+ 			 <div class="panel-body" id="current-datetime">
+    				
+  			</div>
+		</div>
+
+
 		<div class="panel panel-primary train-schedule">
-      		<div class="panel-heading">Current Train Schedule</div>
+      		<div class="panel-heading">
+      			<h3 class = "panel-title">Current Train Schedule</h3>
+      		</div>
+
+      		<div class = "panel-body">
      		 <!--Table-->
      		 <table class="table table-hover" id="train-table">
 			    <thead>
@@ -46,33 +60,16 @@
 			      </tr>
 			    </thead>
 			    <tbody>
-			      <tr>
-			        <td>Trenton Express</td>
-			        <td>Trenton</td>
-			        <td>25</td>
-			        <td>05:35 PM</td>
-			        <td>10</td>
-			      </tr>
-			      <tr>
-			        <td>Trenton Express</td>
-			        <td>Trenton</td>
-			        <td>25</td>
-			        <td>05:35 PM</td>
-			        <td>10</td>
-			      </tr>
-			      <tr>
-			        <td>Trenton Express</td>
-			        <td>Trenton</td>
-			        <td>25</td>
-			        <td>05:35 PM</td>
-			        <td>10</td>
-			      </tr>
+			 
 			    </tbody>
  			 </table>
+ 			 </div>
     	</div><!--End of train-schedule-->
 
     	<div class="panel panel-primary">
-      		<div class="panel-heading">Add Train</div>
+      		<div class="panel-heading">
+      			<h3 class= "panel-title">Add Train</h3>
+      		</div>
      		 <div class="panel-body">
      		 	<form id = "addtrain">
 					<div class="form-group">
